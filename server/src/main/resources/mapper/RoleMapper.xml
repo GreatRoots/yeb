@@ -13,5 +13,16 @@
     <sql id="Base_Column_List">
         id, name, nameZh
     </sql>
+    <select id="getRoleByAdminId" resultType="com.xxxx.pojo.Role">
+        SELECT
+            r.*
+        FROM
+            t_role r,
+            t_admin_role ar
+        WHERE
+            ar.adminId=#{id}
+          AND
+            ar.rid=r.id
+    </select>
 
 </mapper>

@@ -70,9 +70,9 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     public Admin getAdminByUsername(String username) {
         return adminMapper.selectOne(new QueryWrapper<Admin>().eq("username",username));
     }
-
-    @Override
-    public List<Role> getAdminRolesById(Integer id) {
-        return adminMapper.getAdminRolesById(id);
-    }
+//废弃
+//    @Override
+//    public List<Role> getAdminRolesById(Integer id) {
+//        return adminMapper.getAdminRolesById(id);
+//    }
 }

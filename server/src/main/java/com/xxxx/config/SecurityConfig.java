@@ -53,9 +53,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected UserDetailsService userDetailsService() {
         return username -> {
             Admin admin = adminService.getAdminByUsername(username);
-            List<Role> roles = adminService.getAdminRolesById(admin.getId());
+//            List<Role> roles = adminService.getAdminRolesById(admin.getId());
+            List<Role> roles=roleService.getRoleByAdminId(admin.getId());
             for (Role role : roles) {
-                System.out.println(role);
                 role.toString();
             }
             admin.setRoles(roles);
