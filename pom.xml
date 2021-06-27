@@ -8,10 +8,14 @@
         <version>2.3.0.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <packaging>pom</packaging>
-    <groupId>com.example</groupId>
+    <modules>
+        <module>server</module>
+        <module>generator</module>
+    </modules>
+    <groupId>com.xxxx</groupId>
     <artifactId>yeb</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <name>yeb</name>
     <description>Demo project for Spring Boot</description>
     <properties>
