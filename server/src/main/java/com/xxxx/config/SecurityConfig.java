@@ -31,8 +31,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 
-//    @Resource
-//    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
     @Bean
     public PasswordEncoder getPwd(){
@@ -43,6 +41,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     protected UserDetailsService userDetailsService() {
         return username -> adminService.getAdminByUsername(username);
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        //放行静态资源
+        web.ignoring().antMatchers(
+                "/login",
+                "/logout",
+                "/css/**",
+                "/js/**",
+                "/index.html",
+                "/favicon.ico",
+                "/doc.html",
+                "/webjars/**",
+                "/swagger-resources/**",
+                "/v2/api-docs/**");
     }
 
     @Override
@@ -86,19 +100,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new JwtAuthenticationTokenFilter();
     }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        //放行静态资源
-        web.ignoring().antMatchers(
-                "/login",
-                "/logout",
-                "/css/**",
-                "/js/**",
-                "/index.html",
-                "/favicon.ico",
-                "/doc.html",
-                "/webjars/**",
-                "/swagger-resources/**",
-                "/v2/api-docs/**");
-    }
 }
