@@ -2,6 +2,9 @@ package com.xxxx.mapper;
 
 import com.xxxx.pojo.Admin;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.xxxx.pojo.Role;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface AdminMapper extends BaseMapper<Admin> {
 
+    List<Role> getAdminRolesById(Integer id);
 }

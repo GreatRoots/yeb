@@ -1,9 +1,10 @@
 package com.xxxx.config;
 
-import com.xxxx.config.component.JwtAuthenticationTokenFilter;
-import com.xxxx.config.component.RestAuthenticationEntryPoint;
-import com.xxxx.config.component.RestfulAccessDeniedHandler;
+import com.xxxx.config.component.*;
+import com.xxxx.pojo.Admin;
+import com.xxxx.pojo.Role;
 import com.xxxx.service.IAdminService;
+import com.xxxx.service.IRoleService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
@@ -18,6 +19,7 @@ import org.springframework.security.web.access.intercept.FilterSecurityIntercept
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -26,10 +28,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private IAdminService adminService;
 
     @Resource
+    private IRoleService roleService;
+
+    @Resource
     private RestfulAccessDeniedHandler restfulAccessDeniedHandler;
 
     @Resource
     private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+
+    @Resource
+    private CustomFilter customFilter;
+
+    @Resource
+    private CustomUrlDecisionManager customUrlDecisionManager;
 
 
     @Bean
@@ -40,23 +51,37 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     @Bean
     protected UserDetailsService userDetailsService() {
-        return username -> adminService.getAdminByUsername(username);
+        return username -> {
+            Admin admin = adminService.getAdminByUsername(username);
+            List<Role> roles = adminService.getAdminRolesById(admin.getId());
+            for (Role role : roles) {
+                System.out.println(role);
+                role.toString();
+            }
+            admin.setRoles(roles);
+            return admin;
+        };
     }
 
+    /**
+     * 配置放行资源的方式
+     *      直接放行不会经过filter
+     * @param web
+     * @throws Exception
+     */
     @Override
     public void configure(WebSecurity web) throws Exception {
-        //放行静态资源
         web.ignoring().antMatchers(
                 "/login",
                 "/logout",
-                "/css/**",
-                "/js/**",
-                "/index.html",
-                "/favicon.ico",
+                "favicon.ico",
                 "/doc.html",
                 "/webjars/**",
                 "/swagger-resources/**",
-                "/v2/api-docs/**");
+                "/v2/api-docs/**",
+                "/captcha",
+                "/ws/**"
+        );
     }
 
     @Override
@@ -72,15 +97,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //所有请求都要求认证
                 .anyRequest()
                 .authenticated()
-//                //动态权限配置
-//                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
-//                    @Override
-//                    public <O extends FilterSecurityInterceptor> O postProcess(O object) {
-//                        object.setAccessDecisionManager(customUrlDecisionManager);
-//                        object.setSecurityMetadataSource(customFilter);
-//                        return object;
-//                    }
-//                })
+                //动态权限配置
+                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+                    @Override
+                    public <O extends FilterSecurityInterceptor> O postProcess(O object) {
+                        object.setAccessDecisionManager(customUrlDecisionManager);
+                        object.setSecurityMetadataSource(customFilter);
+                        return object;
+                    }
+                })
                 .and()
                 //禁用缓存
                 .headers()

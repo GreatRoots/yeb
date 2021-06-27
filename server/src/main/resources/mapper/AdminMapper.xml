@@ -20,5 +20,28 @@
     <sql id="Base_Column_List">
         id, name, phone, telephone, address, enabled, username, password, userFace, remark
     </sql>
+    <select id="getAdminRolesById" resultMap="queryRole" parameterType="java.lang.Integer">
+        SELECT
+            r.id as rid,
+            r.name as rname,
+            r.nameZh as rnameZh
+        from
+            t_admin a,
+            t_admin_role ar,
+            t_role r
+        WHERE
+            a.id=ar.adminid
+          and
+            ar.rid = r.id
+          and
+            a.id = #{id}
+    </select>
+    <resultMap id="queryRole" type="com.xxxx.pojo.Admin">
+        <collection property="roles" ofType="com.xxxx.pojo.Role">
+            <id column="rid" property="id"/>
+            <result column="rname" property="name"/>
+            <result column="rnameZh" property="nameZh"/>
+        </collection>
+    </resultMap>
 
 </mapper>
