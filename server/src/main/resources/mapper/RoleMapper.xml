@@ -13,6 +13,9 @@
     <sql id="Base_Column_List">
         id, name, nameZh
     </sql>
+    <insert id="insertAny">
+
+    </insert>
     <select id="getRoleByAdminId" resultType="com.xxxx.pojo.Role">
         SELECT
             r.*

@@ -1,15 +1,17 @@
 package com.xxxx.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.xxxx.mapper.AdminRoleMapper;
 import com.xxxx.pojo.Admin;
 import com.xxxx.mapper.AdminMapper;
+import com.xxxx.pojo.AdminRole;
 import com.xxxx.pojo.RespInfo;
-import com.xxxx.pojo.Role;
 import com.xxxx.service.IAdminService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xxxx.utils.JwtTokenUtil;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -47,15 +49,18 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     @Resource
     private JwtTokenUtil jwtTokenUtil;
 
+    @Resource
+    private AdminRoleMapper adminRoleMapper;
+
     @Value("${jwt.tokenHead}")
     private String tokenHead;
 
     @Override
     public RespInfo getLogin(String username, String password, String code, HttpServletRequest request) {
-        String captcha = (String) request.getSession().getAttribute("captcha");
-        if (StringUtils.isBlank(captcha)||!captcha.equals(code)) {
-            return RespInfo.error("验证码错误");
-        }
+//        String captcha = (String) request.getSession().getAttribute("captcha");
+//        if (StringUtils.isBlank(captcha)||!captcha.equals(code)) {
+//            return RespInfo.error("验证码错误");
+//        }
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         if (userDetails==null||passwordEncoder.matches(password,userDetails.getPassword())) {
             return RespInfo.error("用户名或密码错误");
@@ -78,7 +83,43 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     public Admin getAdminByUsername(String username) {
         return adminMapper.selectOne(new QueryWrapper<Admin>().eq("username",username));
     }
-//废弃
+
+    @Override
+    public List<Admin> queryAllAdmin(String keywords) {
+        return adminMapper.queryAllAdmin(((Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId(),keywords);
+    }
+
+    @Override
+    public RespInfo updateAdmin(Admin admin) {
+        if (adminMapper.updateAdmin(admin)<1){
+            return RespInfo.error("更新失败");
+        }
+        return RespInfo.success("更新成功");
+    }
+
+    @Override
+    public RespInfo updateAdminRole(Integer adminId, Integer[] rids) {
+        if (adminId==null){
+            return RespInfo.error("操作员为空");
+        }
+        if (adminRoleMapper.delete(new QueryWrapper<AdminRole>().eq("adminId", adminId))<1){
+            return RespInfo.error("清空角色失败");
+        }
+        AdminRole adminRole=new AdminRole();
+        adminRole.setAdminId(adminId);
+        if (rids.length>0){
+            for (Integer rid : rids) {
+                adminRole.setRid(rid);
+                if (adminRoleMapper.insert(adminRole)<1){
+                    return RespInfo.error("更新角色失败");
+                }
+            }
+        }
+        return RespInfo.success("更新角色成功");
+    }
+
+
+//弃
 //    @Override
 //    public List<Role> getAdminRolesById(Integer id) {
 //        return adminMapper.getAdminRolesById(id);

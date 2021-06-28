@@ -1,5 +1,6 @@
 package com.xxxx.service;
 
+import com.xxxx.pojo.RespInfo;
 import com.xxxx.pojo.Role;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -16,4 +17,9 @@ import java.util.List;
 public interface IRoleService extends IService<Role> {
 
     List<Role> getRoleByAdminId(Integer id);
+
+    List<Role> queryAllRole();
+
+
+    RespInfo updateRole(Integer rid, Integer[] mids);
 }

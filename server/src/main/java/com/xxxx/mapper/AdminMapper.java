@@ -3,6 +3,7 @@ package com.xxxx.mapper;
 import com.xxxx.pojo.Admin;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xxxx.pojo.Role;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,4 +18,8 @@ import java.util.List;
 public interface AdminMapper extends BaseMapper<Admin> {
 
     List<Role> getAdminRolesById(Integer id);
+
+    List<Admin> queryAllAdmin(@Param("id") Integer id,@Param("keywords") String keywords);
+
+    int updateAdmin(Admin admin);
 }

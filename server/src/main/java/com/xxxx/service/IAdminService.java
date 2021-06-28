@@ -23,6 +23,12 @@ public interface IAdminService extends IService<Admin> {
 
     Admin getAdminByUsername(String username);
 
+    List<Admin> queryAllAdmin(String keywords);
+
+    RespInfo updateAdmin(Admin admin);
+
+    RespInfo updateAdminRole(Integer adminId, Integer[] rids);
+
 
 //    List<Role> getAdminRolesById(Integer id);
 }

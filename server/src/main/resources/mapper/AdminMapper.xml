@@ -20,6 +20,41 @@
     <sql id="Base_Column_List">
         id, name, phone, telephone, address, enabled, username, password, userFace, remark
     </sql>
+
+    <update id="updateAdmin">
+        UPDATE t_admin
+        <set>
+            <if test="name!=null||name!=''">
+                `name`=#{name},
+            </if>
+            <if test="phone!=null||phone!=''">
+                phone=#{phone},
+            </if>
+            <if test="telephone!=null||telephone!=''">
+                telephone=#{telephone},
+            </if>
+            <if test="address!=null||address!=''">
+                address=#{address},
+            </if>
+            <if test="enabled!=null||enabled!=''">
+                enabled=#{enabled},
+            </if>
+            <if test="username!=null||username!=''">
+                username=#{username},
+            </if>
+            <if test="password!=null||password!=''">
+                password=#{password},
+            </if>
+            <if test="userFace!=null||userFace!=''">
+                userFace=#{userFace},
+            </if>
+            <if test="remark!=null||remark!=''">
+                remark=#{remark},
+            </if>
+        </set>
+        WHERE id=#{id}
+    </update>
+
     <select id="getAdminRolesById" resultMap="queryRole" parameterType="java.lang.Integer">
         SELECT
             r.id as rid,
@@ -36,7 +71,25 @@
           and
             a.id = #{id}
     </select>
-    <resultMap id="queryRole" type="com.xxxx.pojo.Admin">
+
+    <select id="queryAllAdmin" resultMap="queryRole">
+        SELECT
+            a.*,
+            r.id rid,
+            r.`name` rname,
+            r.nameZh rnameZh
+        FROM
+            t_admin a,
+            t_role r,
+            t_admin_role ar
+        WHERE
+            a.id = ar.adminId
+          AND ar.rid = r.id
+          AND a.id != #{id}
+        <if test="keywords!=null||keywords!=''"> AND a.`name`LIKE CONCAT('%','${keywords}','%')</if>
+    </select>
+
+    <resultMap id="queryRole" type="com.xxxx.pojo.Admin" extends="BaseResultMap">
         <collection property="roles" ofType="com.xxxx.pojo.Role">
             <id column="rid" property="id"/>
             <result column="rname" property="name"/>

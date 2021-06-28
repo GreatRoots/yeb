@@ -1,12 +1,12 @@
 package com.xxxx.controller;
 
 
-import com.xxxx.pojo.Menu;
+import com.xxxx.pojo.*;
+import com.xxxx.service.IAdminService;
 import com.xxxx.service.IMenuService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import com.xxxx.service.IRoleService;
+import io.swagger.models.auth.In;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -20,14 +20,53 @@ import java.util.List;
  * @since 2021-06-27
  */
 @RestController
-@RequestMapping("/menu")
+@RequestMapping("/system")
 public class MenuController {
 
     @Resource
     private IMenuService menuService;
 
+    @Resource
+    private IAdminService adminService;
+
+    @Resource
+    private IRoleService roleService;
+
     @GetMapping("menu")
     public List<Menu> queryAllByUsername(){
         return menuService.queryAllByUsername();
     }
+
+    @GetMapping("admin")
+    public List<Admin> queryAllAdmin(String keywords){
+        return adminService.queryAllAdmin(keywords);
+    }
+
+    @PutMapping("admin")
+    public RespInfo updateAdmin(@RequestBody Admin admin){
+        return adminService.updateAdmin(admin);
+    }
+
+    @PutMapping("admin/role")
+    public RespInfo updateAdminRole( Integer adminId, Integer[] rids){
+        return adminService.updateAdminRole(adminId,rids);
+    }
+
+    @GetMapping("admin/role")
+    public List<Role> queryAdminAllRole(){
+        return roleService.queryAllRole();
+    }
+
+
+
+    @GetMapping("basic/permiss/")
+    public List<Role> queryAllRole(){
+        return roleService.queryAllRole();
+    }
+
+    @PutMapping("basic/permiss/")
+    public RespInfo updateRole(Integer rid, Integer[] mids){
+        return roleService.updateRole(rid,mids);
+    }
+
 }

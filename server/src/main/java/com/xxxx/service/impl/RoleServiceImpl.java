@@ -1,5 +1,8 @@
 package com.xxxx.service.impl;
 
+import com.xxxx.mapper.AdminRoleMapper;
+import com.xxxx.pojo.AdminRole;
+import com.xxxx.pojo.RespInfo;
 import com.xxxx.pojo.Role;
 import com.xxxx.mapper.RoleMapper;
 import com.xxxx.service.IRoleService;
@@ -23,8 +26,29 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
     @Resource
     private RoleMapper roleMapper;
 
+    @Resource
+    private AdminRoleMapper adminRoleMapper;
+
     @Override
     public List<Role> getRoleByAdminId(Integer id) {
         return roleMapper.getRoleByAdminId(id);
     }
+
+    @Override
+    public List<Role> queryAllRole() {
+        return roleMapper.selectList(null);
+    }
+
+    @Override
+    public RespInfo updateRole(Integer rid, Integer[] mids) {
+//        if (rid==null||mids==null) {
+//            return null;
+//        }else{
+//            int a=roleMapper.insertAny(rid,mids);
+//
+//            return null;
+//        }
+        return null;
+    }
+
 }
