@@ -1,6 +1,7 @@
 package com.xxxx.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.xxxx.pojo.Admin;
 import com.xxxx.mapper.AdminMapper;
 import com.xxxx.pojo.RespInfo;
@@ -17,7 +18,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 
@@ -48,7 +51,11 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     private String tokenHead;
 
     @Override
-    public RespInfo getLogin(String username, String password) {
+    public RespInfo getLogin(String username, String password, String code, HttpServletRequest request) {
+        String captcha = (String) request.getSession().getAttribute("captcha");
+        if (StringUtils.isBlank(captcha)||!captcha.equals(code)) {
+            return RespInfo.error("验证码错误");
+        }
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         if (userDetails==null||passwordEncoder.matches(password,userDetails.getPassword())) {
             return RespInfo.error("用户名或密码错误");
@@ -65,6 +72,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         info.put("tokenHead",tokenHead);
         return RespInfo.success(info);
     }
+
 
     @Override
     public Admin getAdminByUsername(String username) {

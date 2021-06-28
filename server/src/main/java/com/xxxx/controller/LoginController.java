@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
 @RestController
@@ -20,8 +21,8 @@ public class LoginController {
     private IAdminService adminService;
 
     @PostMapping("login")
-    public RespInfo getLogin(@RequestBody AdminGetLogin adminGetLogin){
-        return adminService.getLogin(adminGetLogin.getUsername(),adminGetLogin.getPassword());
+    public RespInfo getLogin(@RequestBody AdminGetLogin adminGetLogin, HttpServletRequest request){
+        return adminService.getLogin(adminGetLogin.getUsername(),adminGetLogin.getPassword(),adminGetLogin.getCode(),request);
     }
 
     @GetMapping("admin/info")

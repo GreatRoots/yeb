@@ -6,6 +6,7 @@ import com.xxxx.pojo.RespInfo;
 import com.xxxx.pojo.Role;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -18,9 +19,10 @@ import java.util.List;
  */
 public interface IAdminService extends IService<Admin> {
 
-    RespInfo getLogin(String username, String password);
+    RespInfo getLogin(String username, String password, String code, HttpServletRequest request);
 
     Admin getAdminByUsername(String username);
+
 
 //    List<Role> getAdminRolesById(Integer id);
 }

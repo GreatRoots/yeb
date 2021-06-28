@@ -71,17 +71,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(WebSecurity web) throws Exception {
+        //放行静态资源
         web.ignoring().antMatchers(
                 "/login",
                 "/logout",
-                "favicon.ico",
+                "/css/**",
+                "/js/**",
+                "/index.html",
+                "/img/**",
+                "/fonts/**",
+                "/favicon.ico",
                 "/doc.html",
                 "/webjars/**",
                 "/swagger-resources/**",
                 "/v2/api-docs/**",
-                "/captcha",
-                "/ws/**"
-        );
+                "/captcha");
     }
 
     @Override
