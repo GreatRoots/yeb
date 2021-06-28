@@ -29,6 +29,8 @@ public interface IAdminService extends IService<Admin> {
 
     RespInfo updateAdminRole(Integer adminId, Integer[] rids);
 
+    RespInfo deleteAdminById(Integer id);
+
 
 //    List<Role> getAdminRolesById(Integer id);
 }

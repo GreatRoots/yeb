@@ -47,6 +47,11 @@ public class MenuController {
         return adminService.updateAdmin(admin);
     }
 
+    @DeleteMapping("admin/{id}")
+    public RespInfo deleteAdminById(@PathVariable("id") Integer id){
+        return adminService.deleteAdminById(id);
+    }
+
     @PutMapping("admin/role")
     public RespInfo updateAdminRole( Integer adminId, Integer[] rids){
         return adminService.updateAdminRole(adminId,rids);
@@ -56,6 +61,7 @@ public class MenuController {
     public List<Role> queryAdminAllRole(){
         return roleService.queryAllRole();
     }
+
 
 
 

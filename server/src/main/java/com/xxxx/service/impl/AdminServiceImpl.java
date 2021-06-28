@@ -1,9 +1,6 @@
 package com.xxxx.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.xxxx.mapper.AdminRoleMapper;
 import com.xxxx.pojo.Admin;
 import com.xxxx.mapper.AdminMapper;
@@ -116,6 +113,17 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
             }
         }
         return RespInfo.success("更新角色成功");
+    }
+
+    @Override
+    public RespInfo deleteAdminById(Integer id) {
+        if (id==null){
+            return RespInfo.error("未选择操作员");
+        }
+        if (adminRoleMapper.delete(new QueryWrapper<AdminRole>().eq("adminId", id))<1){
+            return RespInfo.error("角色删除失败");
+        }
+        return adminMapper.deleteById(id)>0?RespInfo.success("删除成功"):RespInfo.error("删除失败");
     }
 
 
