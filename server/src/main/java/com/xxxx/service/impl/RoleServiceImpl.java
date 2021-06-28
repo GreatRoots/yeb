@@ -1,7 +1,10 @@
 package com.xxxx.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xxxx.mapper.AdminRoleMapper;
+import com.xxxx.mapper.MenuRoleMapper;
 import com.xxxx.pojo.AdminRole;
+import com.xxxx.pojo.MenuRole;
 import com.xxxx.pojo.RespInfo;
 import com.xxxx.pojo.Role;
 import com.xxxx.mapper.RoleMapper;
@@ -27,7 +30,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
     private RoleMapper roleMapper;
 
     @Resource
-    private AdminRoleMapper adminRoleMapper;
+    private MenuRoleMapper menuRoleMapper;
 
     @Override
     public List<Role> getRoleByAdminId(Integer id) {
@@ -41,14 +44,19 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 
     @Override
     public RespInfo updateRole(Integer rid, Integer[] mids) {
-//        if (rid==null||mids==null) {
-//            return null;
-//        }else{
-//            int a=roleMapper.insertAny(rid,mids);
-//
-//            return null;
-//        }
-        return null;
+        if (rid==null){
+            return RespInfo.error("请选择角色");
+        }
+        menuRoleMapper.delete(new QueryWrapper<MenuRole>().eq("rid",rid));
+        MenuRole menuRole=new MenuRole();
+        menuRole.setRid(rid);
+        for (Integer mid : mids) {
+            menuRole.setMid(mid);
+            if (menuRoleMapper.insert(menuRole)<1){
+                return RespInfo.error("角色菜单添加失败");
+            }
+        }
+        return RespInfo.success("角色菜单添加成功");
     }
 
 }

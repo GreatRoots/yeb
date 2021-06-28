@@ -34,4 +34,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
     public List<Menu> queryAllByUsername() {
         return menuMapper.queryAllByAdminId(((Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
     }
+
+    @Override
+    public List<Menu> queryAllMenu() {
+        return menuMapper.queryAllMenu();
+    }
 }

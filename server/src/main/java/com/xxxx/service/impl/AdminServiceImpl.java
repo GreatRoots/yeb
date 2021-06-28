@@ -1,6 +1,7 @@
 package com.xxxx.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.xxxx.mapper.AdminRoleMapper;
 import com.xxxx.pojo.Admin;
 import com.xxxx.mapper.AdminMapper;
@@ -54,10 +55,10 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
     @Override
     public RespInfo getLogin(String username, String password, String code, HttpServletRequest request) {
-//        String captcha = (String) request.getSession().getAttribute("captcha");
-//        if (StringUtils.isBlank(captcha)||!captcha.equals(code)) {
-//            return RespInfo.error("验证码错误");
-//        }
+        String captcha = (String) request.getSession().getAttribute("captcha");
+        if (StringUtils.isBlank(captcha)||!captcha.equals(code)) {
+            return RespInfo.error("验证码错误");
+        }
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         if (userDetails==null||passwordEncoder.matches(password,userDetails.getPassword())) {
             return RespInfo.error("用户名或密码错误");
@@ -99,9 +100,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         if (adminId==null){
             return RespInfo.error("操作员为空");
         }
-        if (adminRoleMapper.delete(new QueryWrapper<AdminRole>().eq("adminId", adminId))<1){
-            return RespInfo.error("清空角色失败");
-        }
+        adminRoleMapper.delete(new QueryWrapper<AdminRole>().eq("adminId", adminId));
         AdminRole adminRole=new AdminRole();
         adminRole.setAdminId(adminId);
         if (rids.length>0){

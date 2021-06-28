@@ -3,6 +3,8 @@ package com.xxxx.mapper;
 import com.xxxx.pojo.MenuRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口

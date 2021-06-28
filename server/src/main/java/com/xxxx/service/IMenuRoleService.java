@@ -3,6 +3,8 @@ package com.xxxx.service;
 import com.xxxx.pojo.MenuRole;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IMenuRoleService extends IService<MenuRole> {
 
+    List<Integer> queryMenuIdByRoleId(Integer rid);
 }

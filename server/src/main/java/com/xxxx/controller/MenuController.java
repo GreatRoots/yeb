@@ -64,15 +64,4 @@ public class MenuController {
 
 
 
-
-    @GetMapping("basic/permiss/")
-    public List<Role> queryAllRole(){
-        return roleService.queryAllRole();
-    }
-
-    @PutMapping("basic/permiss/")
-    public RespInfo updateRole(Integer rid, Integer[] mids){
-        return roleService.updateRole(rid,mids);
-    }
-
 }

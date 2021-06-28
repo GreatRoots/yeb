@@ -18,4 +18,6 @@ public interface MenuMapper extends BaseMapper<Menu> {
     List<Menu> queryAllRoles();
 
     List<Menu> queryAllByAdminId(Integer id);
+
+    List<Menu> queryAllMenu();
 }

@@ -18,4 +18,6 @@ public interface IMenuService extends IService<Menu> {
     List<Menu> queryAllRoles();
 
     List<Menu> queryAllByUsername();
+
+    List<Menu> queryAllMenu();
 }
