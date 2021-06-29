@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
-@RequestMapping("system/basic/permiss")
+@RequestMapping("/system/basic/permiss")
 public class PermissController {
 
     @Resource

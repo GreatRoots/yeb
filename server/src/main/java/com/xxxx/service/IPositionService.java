@@ -2,6 +2,9 @@ package com.xxxx.service;
 
 import com.xxxx.pojo.Position;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xxxx.pojo.RespInfo;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,13 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IPositionService extends IService<Position> {
 
+    List<Position> queryAllPosition();
+
+    RespInfo addPosition(Position position);
+
+    RespInfo updatePosition(Position position);
+
+    RespInfo deleteMorePosition(Integer[] ids);
+
+    RespInfo deleteOnePosition(Integer id);
 }

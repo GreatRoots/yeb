@@ -26,41 +26,12 @@ public class MenuController {
     @Resource
     private IMenuService menuService;
 
-    @Resource
-    private IAdminService adminService;
-
-    @Resource
-    private IRoleService roleService;
-
     @GetMapping("menu")
     public List<Menu> queryAllByUsername(){
         return menuService.queryAllByUsername();
     }
 
-    @GetMapping("admin")
-    public List<Admin> queryAllAdmin(String keywords){
-        return adminService.queryAllAdmin(keywords);
-    }
 
-    @PutMapping("admin")
-    public RespInfo updateAdmin(@RequestBody Admin admin){
-        return adminService.updateAdmin(admin);
-    }
-
-    @DeleteMapping("admin/{id}")
-    public RespInfo deleteAdminById(@PathVariable("id") Integer id){
-        return adminService.deleteAdminById(id);
-    }
-
-    @PutMapping("admin/role")
-    public RespInfo updateAdminRole( Integer adminId, Integer[] rids){
-        return adminService.updateAdminRole(adminId,rids);
-    }
-
-    @GetMapping("admin/role")
-    public List<Role> queryAdminAllRole(){
-        return roleService.queryAllRole();
-    }
 
 
 

@@ -18,7 +18,7 @@ import java.util.List;
  * @since 2021-06-27
  */
 @RestController
-@RequestMapping("system/basic/department")
+@RequestMapping("/system/basic/department")
 public class DepartmentController {
 
     @Resource
