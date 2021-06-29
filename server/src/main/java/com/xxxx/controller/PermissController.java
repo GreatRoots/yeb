@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
-@RequestMapping("system/basic")
+@RequestMapping("system/basic/permiss")
 public class PermissController {
 
     @Resource
@@ -26,28 +26,40 @@ public class PermissController {
     @Resource
     private IMenuRoleService menuRoleService;
 
-    @GetMapping("permiss")
+    @GetMapping
     public List<Role> queryAllRole(){
         return roleService.queryAllRole();
     }
 
-    @PutMapping("permiss")
+    @PutMapping
     public RespInfo updateRole(Integer rid, Integer[] mids){
         return roleService.updateRole(rid,mids);
     }
 
-    @GetMapping("permiss/menus")
+    @GetMapping("menus")
     public List<Menu> queryAllMenu(){
         return menuService.queryAllMenu();
     }
 
-    @GetMapping("permiss/mid/{rid}")
+    @GetMapping("mid/{rid}")
     public List<Integer> queryMenuIdByRoleId(@PathVariable("rid") Integer rid){
         if (rid==null){
             return null;
         }
         return menuRoleService.queryMenuIdByRoleId(rid);
     }
+
+    @PostMapping("role")
+    public RespInfo addRole(@RequestBody Role role){
+        return roleService.addRole(role);
+    }
+
+    @DeleteMapping("role/{rid}")
+    public RespInfo deleteRole(@PathVariable("rid") Integer rid){
+        return roleService.deleteRole(rid);
+    }
+
+
 
 
 }

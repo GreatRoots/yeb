@@ -116,11 +116,11 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
     @Override
     public RespInfo deleteAdminById(Integer id) {
-        if (id==null){
-            return RespInfo.error("未选择操作员");
+        if (id==null||adminMapper.selectById(id)==null){
+            return RespInfo.error("未选择操作员或操作员不存在");
         }
-        if (adminRoleMapper.delete(new QueryWrapper<AdminRole>().eq("adminId", id))<1){
-            return RespInfo.error("角色删除失败");
+        if (adminRoleMapper.selectList(new QueryWrapper<AdminRole>().eq("adminId", id)).size()>0) {
+            adminRoleMapper.delete(new QueryWrapper<AdminRole>().eq("adminId", id));
         }
         return adminMapper.deleteById(id)>0?RespInfo.success("删除成功"):RespInfo.error("删除失败");
     }

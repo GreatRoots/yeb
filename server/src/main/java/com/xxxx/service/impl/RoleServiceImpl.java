@@ -32,6 +32,9 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
     @Resource
     private MenuRoleMapper menuRoleMapper;
 
+    @Resource
+    private AdminRoleMapper adminRoleMapper;
+
     @Override
     public List<Role> getRoleByAdminId(Integer id) {
         return roleMapper.getRoleByAdminId(id);
@@ -57,6 +60,35 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
             }
         }
         return RespInfo.success("角色菜单添加成功");
+    }
+
+    @Override
+    public RespInfo addRole(Role role) {
+        if (role==null||role.getName().startsWith("ROLE_")){
+            return RespInfo.error("信息为空或格式错误");
+        }
+        List<Role> roles = roleMapper.selectList(null);
+        for (Role role1 : roles) {
+            if (role.getName().equals(role1.getName())||role.getNameZh().equals(role1.getNameZh())){
+                return RespInfo.error("角色已存在");
+            }
+        }
+        role.setId(null);
+        return roleMapper.insert(role)>0?RespInfo.success("角色添加成功"):RespInfo.error("角色添加失败");
+    }
+
+    @Override
+    public RespInfo deleteRole(Integer rid) {
+        if (rid==null||roleMapper.selectById(rid)==null){
+            return RespInfo.error("未选择角色或角色不存在");
+        }
+        if (menuRoleMapper.selectList(new QueryWrapper<MenuRole>().eq("rid",rid)).size()>0) {
+            menuRoleMapper.delete(new QueryWrapper<MenuRole>().eq("rid",rid));
+        }
+        if (adminRoleMapper.selectList(new QueryWrapper<AdminRole>().eq("rid",rid)).size()>0) {
+            adminRoleMapper.delete(new QueryWrapper<AdminRole>().eq("rid",rid));
+        }
+        return roleMapper.deleteById(rid)>0?RespInfo.success("角色删除成功"):RespInfo.error("角色删除失败");
     }
 
 }

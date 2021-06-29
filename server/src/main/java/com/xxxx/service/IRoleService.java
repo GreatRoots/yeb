@@ -22,4 +22,8 @@ public interface IRoleService extends IService<Role> {
 
 
     RespInfo updateRole(Integer rid, Integer[] mids);
+
+    RespInfo addRole(Role role);
+
+    RespInfo deleteRole(Integer rid);
 }
