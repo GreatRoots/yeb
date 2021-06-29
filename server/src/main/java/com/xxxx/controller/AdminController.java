@@ -49,7 +49,7 @@ public class AdminController {
         return adminService.updateAdminRole(adminId,rids);
     }
 
-    @GetMapping("role")
+    @GetMapping("roles")
     public List<Role> queryAdminAllRole(){
         return roleService.queryAllRole();
     }

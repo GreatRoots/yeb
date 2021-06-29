@@ -1,7 +1,10 @@
 package com.xxxx.service;
 
+import com.xxxx.pojo.Employee;
 import com.xxxx.pojo.EmployeeEc;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IEmployeeEcService extends IService<EmployeeEc> {
 
+    List<Employee> queryAllEmployee();
 }

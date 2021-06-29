@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.xxxx.config.component.CustomAuthorityDeserializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
@@ -74,8 +76,8 @@ public class Admin implements Serializable, UserDetails {
     private List<Role> roles;
 
 
-
     @Override
+    @JsonDeserialize(using = CustomAuthorityDeserializer.class)
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         for (Role role : this.roles) {
@@ -102,7 +104,7 @@ public class Admin implements Serializable, UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled ;
     }
 
 }

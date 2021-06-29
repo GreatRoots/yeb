@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdminGetLogin {
+public class AdminLoginParam {
     @ApiModelProperty(value = "用户名", required = true)
     private String username;
     @ApiModelProperty(value = "密码", required = true)
     private String password;
     @ApiModelProperty(value = "验证码", required = true)
-    private String Code;
+    private String code;
 }

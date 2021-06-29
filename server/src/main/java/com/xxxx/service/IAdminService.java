@@ -21,7 +21,7 @@ public interface IAdminService extends IService<Admin> {
 
     RespInfo getLogin(String username, String password, String code, HttpServletRequest request);
 
-    Admin getAdminByUsername(String username);
+    
 
     List<Admin> queryAllAdmin(String keywords);
 
@@ -30,6 +30,8 @@ public interface IAdminService extends IService<Admin> {
     RespInfo updateAdminRole(Integer adminId, Integer[] rids);
 
     RespInfo deleteAdminById(Integer id);
+
+    Admin getAdminByUsername(String username);
 
 
 //    List<Role> getAdminRolesById(Integer id);
