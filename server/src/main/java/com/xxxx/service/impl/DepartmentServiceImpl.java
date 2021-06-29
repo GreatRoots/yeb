@@ -32,7 +32,7 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
 
     @Override
     public List<Department> queryAllDepartment() {
-        return departmentMapper.queryAllDepartment();
+        return departmentMapper.queryAllDepartment(-1);
     }
 
     @Override

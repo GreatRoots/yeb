@@ -13,13 +13,8 @@
     </resultMap>
 
     <resultMap id="departmentandchild" type="com.xxxx.pojo.Department" extends="BaseResultMap">
-        <collection property="children" ofType="com.xxxx.pojo.Department">
-            <id column="id2" property="id" />
-            <result column="name2" property="name" />
-            <result column="parentId2" property="parentId" />
-            <result column="depPath2" property="depPath" />
-            <result column="enabled2" property="enabled" />
-            <result column="isParent2" property="isParent" />
+        <collection property="children" ofType="com.xxxx.pojo.Department"
+                    select="com.xxxx.mapper.DepartmentMapper.queryAllDepartment" column="id">
         </collection>
     </resultMap>
 
@@ -29,18 +24,11 @@
     </sql>
     <select id="queryAllDepartment" resultMap="departmentandchild">
         SELECT
-            d1.*,
-            d2.id id2,
-            d2.`name` name2,
-            d2.parentId parentId2,
-            d2.depPath depPath2,
-            d2.enabled enabled2,
-            d2.isParent isParent2
+        <include refid = "Base_Column_List" ></include>
         FROM
-            t_department d1,
-            t_department d2
+        t_department
         WHERE
-            d1.id = d2.parentId
+        parentId = #{parentId}
     </select>
 
 </mapper>

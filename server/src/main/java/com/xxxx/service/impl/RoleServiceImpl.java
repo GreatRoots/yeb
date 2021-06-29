@@ -51,12 +51,14 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
             return RespInfo.error("请选择角色");
         }
         menuRoleMapper.delete(new QueryWrapper<MenuRole>().eq("rid",rid));
-        MenuRole menuRole=new MenuRole();
-        menuRole.setRid(rid);
-        for (Integer mid : mids) {
-            menuRole.setMid(mid);
-            if (menuRoleMapper.insert(menuRole)<1){
-                return RespInfo.error("角色菜单添加失败");
+        if (mids!=null&&mids.length>0){
+            MenuRole menuRole=new MenuRole();
+            menuRole.setRid(rid);
+            for (Integer mid : mids) {
+                menuRole.setMid(mid);
+                if (menuRoleMapper.insert(menuRole)<1){
+                    return RespInfo.error("角色菜单添加失败");
+                }
             }
         }
         return RespInfo.success("角色菜单添加成功");
