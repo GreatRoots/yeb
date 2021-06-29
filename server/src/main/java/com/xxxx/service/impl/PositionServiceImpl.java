@@ -72,7 +72,6 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
             }
             list.add(id);
         }
-        System.out.println(list);
         positionMapper.deleteBatchIds(list);
         return RespInfo.success("删除职位信息成功");
     }
