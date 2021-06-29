@@ -2,6 +2,9 @@ package com.xxxx.service;
 
 import com.xxxx.pojo.Department;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xxxx.pojo.RespInfo;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IDepartmentService extends IService<Department> {
 
+    List<Department> queryAllDepartment();
+
+    RespInfo addDepartment(Department department);
+
+    RespInfo deleteDepartment(Integer id);
 }

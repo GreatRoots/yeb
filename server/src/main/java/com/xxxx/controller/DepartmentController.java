@@ -1,9 +1,13 @@
 package com.xxxx.controller;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.xxxx.pojo.Department;
+import com.xxxx.pojo.RespInfo;
+import com.xxxx.service.IDepartmentService;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -17,4 +21,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("system/basic/department")
 public class DepartmentController {
 
+    @Resource
+    private IDepartmentService departmentService;
+
+    @GetMapping
+    public List<Department> queryAllDepartment(){
+        return departmentService.queryAllDepartment();
+    }
+
+    @PostMapping
+    public RespInfo addDepartment(@RequestBody Department department){
+        return departmentService.addDepartment(department);
+    }
+
+    @DeleteMapping("{id}")
+    public RespInfo deleteDepartment(@PathVariable("id") Integer id){
+        return departmentService.deleteDepartment(id);
+    }
 }
