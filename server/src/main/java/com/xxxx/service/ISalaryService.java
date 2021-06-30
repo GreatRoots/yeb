@@ -1,6 +1,7 @@
 package com.xxxx.service;
 
 import com.xxxx.pojo.RespInfo;
+import com.xxxx.pojo.RespPageBean;
 import com.xxxx.pojo.Salary;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -24,4 +25,5 @@ public interface ISalaryService extends IService<Salary> {
     RespInfo updateSalary(Salary salary);
 
     RespInfo deleteSalary(Integer id);
+
 }

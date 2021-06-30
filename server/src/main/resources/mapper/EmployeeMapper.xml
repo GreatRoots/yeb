@@ -58,6 +58,27 @@
         </association>
     </resultMap>
 
+    <resultMap id="queryAllEmployeeSalary" type="com.xxxx.pojo.Employee" extends="BaseResultMap">
+        <association property="department" javaType="com.xxxx.pojo.Department">
+            <id column="did" property="id"></id>
+            <result column="dname" property="name"></result>
+        </association>
+        <association property="salary" javaType="com.xxxx.pojo.Salary">
+            <id column="sid" property="id"></id>
+            <result column="sname" property="name"></result>
+            <result column="basicSalary" property="basicSalary"></result>
+            <result column="bonus" property="bonus"></result>
+            <result column="lunchSalary" property="lunchSalary"></result>
+            <result column="trafficSalary" property="trafficSalary"></result>
+            <result column="pensionBase" property="pensionBase"></result>
+            <result column="pensionPer" property="pensionPer"></result>
+            <result column="medicalBase" property="medicalBase"></result>
+            <result column="medicalPer" property="medicalPer"></result>
+            <result column="accumulationFundBase" property="accumulationFundBase"></result>
+            <result column="accumulationFundPer" property="accumulationFundPer"></result>
+        </association>
+    </resultMap>
+
     <!--获取所有员工(分页)-->
     <select id="queryAllEmployeeByPage" resultMap="EmployeeInfo">
         SELECT
@@ -110,6 +131,34 @@
             AND e.beginDate between #{beginDateScope[0]} and #{beginDateScope[1]}
         </if>
         ORDER BY e.id
+    </select>
+
+    <select id="queryAllEmployeeSalary" resultMap="queryAllEmployeeSalary">
+        SELECT
+            e.*,
+            d.id did,
+            d.`name` dname,
+            s.id sid,
+            s.`name` sname,
+            s.basicSalary basicSalary,
+            s.bonus bonus,
+            s.lunchSalary lunchSalary,
+            s.trafficSalary trafficSalary,
+            s.pensionBase pensionBase,
+            s.pensionPer pensionPer,
+            s.medicalBase medicalBase,
+            s.medicalPer medicalPer,
+            s.accumulationFundBase accumulationFundBase,
+            s.accumulationFundPer accumulationFundPer
+        FROM
+            t_employee e,
+            t_salary s,
+            t_department d
+        WHERE
+            e.salaryId = s.id
+          AND e.departmentId = d.id
+        ORDER BY
+            e.workID
     </select>
 
 </mapper>

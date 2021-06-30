@@ -21,4 +21,6 @@ public interface EmployeeMapper extends BaseMapper<Employee> {
 
     IPage<Employee> queryAllEmployeeByPage(Page<Employee> page, @Param("employee") Employee employee,
                                            @Param("beginDateScope") LocalDate[] beginDateScope);
+
+    IPage<Employee> queryAllEmployeeSalary(Page<Employee> page);
 }
