@@ -55,21 +55,16 @@
         WHERE id=#{id}
     </update>
 
-    <select id="getAdminRolesById" resultMap="queryRole" parameterType="java.lang.Integer">
-        SELECT
-            r.id as rid,
-            r.name as rname,
-            r.nameZh as rnameZh
+    <select id="getAdminRolesById" resultType="com.xxxx.pojo.Role" parameterType="java.lang.Integer">
+        select
+            r.*
         from
-            t_admin a,
-            t_admin_role ar,
-            t_role r
+            t_role r,
+            t_admin_role ar
         WHERE
-            a.id=ar.adminid
-          and
             ar.rid = r.id
           and
-            a.id = #{id}
+            ar.adminid = #{id}
     </select>
 
     <select id="queryAllAdmin" resultMap="queryRole">

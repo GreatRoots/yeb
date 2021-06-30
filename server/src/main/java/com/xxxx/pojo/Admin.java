@@ -75,7 +75,6 @@ public class Admin implements Serializable, UserDetails {
     @TableField(exist = false)
     private List<Role> roles;
 
-
     @Override
     @JsonDeserialize(using = CustomAuthorityDeserializer.class)
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -2,6 +2,7 @@ package com.xxxx.service;
 
 import com.xxxx.pojo.Admin;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xxxx.pojo.AdminPassword;
 import com.xxxx.pojo.RespInfo;
 import com.xxxx.pojo.Role;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,8 +22,6 @@ public interface IAdminService extends IService<Admin> {
 
     RespInfo getLogin(String username, String password, String code, HttpServletRequest request);
 
-    
-
     List<Admin> queryAllAdmin(String keywords);
 
     RespInfo updateAdmin(Admin admin);
@@ -32,6 +31,10 @@ public interface IAdminService extends IService<Admin> {
     RespInfo deleteAdminById(Integer id);
 
     Admin getAdminByUsername(String username);
+
+    RespInfo updateAdminPassword(AdminPassword info);
+
+    List<Role> getAdminRolesById(Integer id);
 
 
 //    List<Role> getAdminRolesById(Integer id);

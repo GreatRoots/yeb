@@ -3,10 +3,8 @@ package com.xxxx.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.xxxx.mapper.AdminRoleMapper;
-import com.xxxx.pojo.Admin;
+import com.xxxx.pojo.*;
 import com.xxxx.mapper.AdminMapper;
-import com.xxxx.pojo.AdminRole;
-import com.xxxx.pojo.RespInfo;
 import com.xxxx.service.IAdminService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xxxx.utils.JwtTokenUtil;
@@ -21,8 +19,10 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -83,12 +83,33 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     }
 
     @Override
+    public RespInfo updateAdminPassword(AdminPassword info) {
+        if (info==null||info.getAdminId()==null){
+            return RespInfo.error("参数错误");
+        }
+        Admin admin = adminMapper.selectById(info.getAdminId());
+        if (passwordEncoder.matches(info.getOldPass(),admin.getPassword())) {
+            return RespInfo.error("原密码错误");
+        }
+        if (!info.getCheckPass().equals(info.getPass())) {
+            return RespInfo.error("密码不一致");
+        }
+        admin.setPassword(passwordEncoder.encode(info.getPass()));
+//        int i = adminMapper.updateById(admin);
+//        SecurityContextHolder.getContext().setAuthentication(null);
+        return RespInfo.success("密码修改成功");
+    }
+
+    @Override
     public List<Admin> queryAllAdmin(String keywords) {
         return adminMapper.queryAllAdmin(((Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId(),keywords);
     }
 
     @Override
     public RespInfo updateAdmin(Admin admin) {
+        if (admin==null){
+            return RespInfo.error("未选择用户");
+        }
         if (adminMapper.updateAdmin(admin)<1){
             return RespInfo.error("更新失败");
         }
@@ -126,9 +147,8 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     }
 
 
-//弃
-//    @Override
-//    public List<Role> getAdminRolesById(Integer id) {
-//        return adminMapper.getAdminRolesById(id);
-//    }
+    @Override
+    public List<Role> getAdminRolesById(Integer id) {
+        return adminMapper.getAdminRolesById(id);
+    }
 }
