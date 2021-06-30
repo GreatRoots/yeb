@@ -1,9 +1,10 @@
 package com.xxxx.service;
 
-import com.xxxx.pojo.Employee;
-import com.xxxx.pojo.EmployeeEc;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.xxxx.pojo.*;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -16,5 +17,23 @@ import java.util.List;
  */
 public interface IEmployeeEcService extends IService<EmployeeEc> {
 
-    List<Employee> queryAllEmployee();
+    RespPageBean queryAllEmployee(Integer currentPage, Integer size, Employee employee, LocalDate[] beginDateScope);
+
+    RespInfo addEmployee(Employee employee);
+
+    List<Department> queryAllDepartment();
+
+    List<Joblevel> queryAllJoblevel();
+
+    RespInfo queryAllWorkID();
+
+    List<Nation> queryAllNation();
+
+    List<PoliticsStatus> queryAllPoliticsStatus();
+
+    List<Position> queryAllPosition();
+
+    RespInfo updateEmployee(Employee employee);
+
+    RespInfo deleteEmployee(Integer id);
 }

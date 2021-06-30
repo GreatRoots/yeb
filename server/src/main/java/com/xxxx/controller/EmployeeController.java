@@ -1,14 +1,12 @@
 package com.xxxx.controller;
 
-
-import com.xxxx.pojo.Employee;
+import com.xxxx.pojo.*;
 import com.xxxx.service.IEmployeeEcService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.models.auth.In;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -27,7 +25,54 @@ public class EmployeeController {
     private IEmployeeEcService employeeEcService;
 
     @GetMapping
-    public List<Employee> queryAllEmployee(){
-        return employeeEcService.queryAllEmployee();
+    public RespPageBean queryAllEmployee(@RequestParam(defaultValue = "1") Integer currentPage,@RequestParam(defaultValue = "10") Integer size,Employee employee, LocalDate[] beginDateScope){
+        return employeeEcService.queryAllEmployee(currentPage,size,employee,beginDateScope);
     }
+
+    @PostMapping
+    public RespInfo addEmployee(@RequestBody Employee employee){
+        return employeeEcService.addEmployee(employee);
+    }
+
+    @PutMapping
+    public RespInfo updateEmployee(@RequestBody Employee employee){
+        return employeeEcService.updateEmployee(employee);
+    }
+
+    @DeleteMapping("{id}")
+    public RespInfo deleteEmployee(@PathVariable("id") Integer id){
+        return employeeEcService.deleteEmployee(id);
+    }
+
+    @GetMapping("deps")
+    public List<Department> queryAllDepartment(){
+        return employeeEcService.queryAllDepartment();
+    }
+
+    @GetMapping("joblevels")
+    public List<Joblevel> queryAllJoblevel(){
+        return employeeEcService.queryAllJoblevel();
+    }
+
+    @GetMapping("maxWorkID")
+    public RespInfo queryAllWorkID(){
+        return employeeEcService.queryAllWorkID();
+    }
+
+    @GetMapping("nations")
+    public List<Nation> queryAllNation(){
+        return employeeEcService.queryAllNation();
+    }
+
+    @GetMapping("politicsstatus")
+    public List<PoliticsStatus> queryAllPoliticsStatus(){
+        return employeeEcService.queryAllPoliticsStatus();
+    }
+
+    @GetMapping("positions")
+    public List<Position> queryAllPosition(){
+        return employeeEcService.queryAllPosition();
+    }
+
+
 }
