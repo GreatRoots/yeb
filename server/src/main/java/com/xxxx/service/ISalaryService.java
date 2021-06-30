@@ -1,7 +1,10 @@
 package com.xxxx.service;
 
+import com.xxxx.pojo.RespInfo;
 import com.xxxx.pojo.Salary;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,12 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ISalaryService extends IService<Salary> {
 
+
+    List<Salary> queryAllSalary();
+
+    RespInfo addSalary(Salary salary);
+
+    RespInfo updateSalary(Salary salary);
+
+    RespInfo deleteSalary(Integer id);
 }
