@@ -6,6 +6,7 @@ import com.xxxx.pojo.AdminPassword;
 import com.xxxx.pojo.RespInfo;
 import com.xxxx.pojo.Role;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -35,6 +36,8 @@ public interface IAdminService extends IService<Admin> {
     RespInfo updateAdminPassword(AdminPassword info);
 
     List<Role> getAdminRolesById(Integer id);
+
+    RespInfo updateUserFace(MultipartFile file, Integer id);
 
 
 //    List<Role> getAdminRolesById(Integer id);

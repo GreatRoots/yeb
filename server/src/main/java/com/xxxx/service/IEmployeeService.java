@@ -3,6 +3,7 @@ package com.xxxx.service;
 import com.xxxx.pojo.*;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -39,4 +40,6 @@ public interface IEmployeeService extends IService<Employee> {
     RespPageBean queryAllEmployeeSalary(Integer currentPage, Integer size);
 
     RespInfo updateEmployeeSalary(Integer eid, Integer sid);
+
+    void exportEmployee(HttpServletResponse response);
 }

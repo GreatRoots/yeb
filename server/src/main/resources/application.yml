@@ -40,6 +40,17 @@ spring:
         max-wait: 10000ms                   # 最大连接阻塞等待时间，单位毫秒，默认 -1
         max-idle: 200                       # 最大空闲连接，默认 8
         min-idle: 5                          # 最小空闲连接，默认 0
+  rabbitmq:
+    host: 1.1.1.100
+    username: guest
+    password: guest
+    port: 5672
+#  mail:
+#    username: 865234946@qq.com
+#    password: iqwnpzqvovhhbbea
+#    host: smtp.qq.com
+#    default-encoding: UTF-8
+#    protocol: smtp
 
 # Mybatis-plus配置
 mybatis-plus:
@@ -55,7 +66,6 @@ mybatis-plus:
 logging:
   level:
     com.xxxx.server.mapper: debug
-
 
 
 jwt:

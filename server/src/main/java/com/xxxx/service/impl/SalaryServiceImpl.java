@@ -1,6 +1,8 @@
 package com.xxxx.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.xxxx.mapper.EmployeeMapper;
+import com.xxxx.pojo.Employee;
 import com.xxxx.pojo.RespInfo;
 import com.xxxx.pojo.Salary;
 import com.xxxx.mapper.SalaryMapper;
@@ -26,6 +28,9 @@ public class SalaryServiceImpl extends ServiceImpl<SalaryMapper, Salary> impleme
 
     @Resource
     private SalaryMapper salaryMapper;
+
+    @Resource
+    private EmployeeMapper employeeMapper;
 
     @Override
     public List<Salary> queryAllSalary() {

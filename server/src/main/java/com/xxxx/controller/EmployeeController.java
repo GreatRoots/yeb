@@ -1,13 +1,23 @@
 package com.xxxx.controller;
 
+import cn.afterturn.easypoi.excel.ExcelExportUtil;
+import cn.afterturn.easypoi.excel.entity.ExportParams;
+import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
 import com.xxxx.pojo.*;
 import com.xxxx.service.IEmployeeEcService;
 import com.xxxx.service.IEmployeeService;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.models.auth.In;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -75,5 +85,9 @@ public class EmployeeController {
         return employeeService.queryAllPosition();
     }
 
-
+    @ApiOperation(value = "导出员工数据")
+    @GetMapping(value = "/export", produces = "application/octet-stream")
+    public void exportEmployee(HttpServletResponse response) {
+        employeeService.exportEmployee(response);
+    }
 }

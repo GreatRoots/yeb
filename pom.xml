@@ -11,6 +11,7 @@
     <modules>
         <module>server</module>
         <module>generator</module>
+        <module>mail</module>
     </modules>
     <groupId>com.xxxx</groupId>
     <artifactId>yeb</artifactId>

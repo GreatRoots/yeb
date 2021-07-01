@@ -7,14 +7,17 @@ import com.xxxx.pojo.*;
 import com.xxxx.mapper.AdminMapper;
 import com.xxxx.service.IAdminService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xxxx.utils.FastDFSUtils;
 import com.xxxx.utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import javax.annotation.Resource;
@@ -60,7 +63,8 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
             return RespInfo.error("验证码错误");
         }
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        if (userDetails==null||passwordEncoder.matches(password,userDetails.getPassword())) {
+        System.out.println(userDetails);
+        if (userDetails==null||!passwordEncoder.matches(password,userDetails.getPassword())) {
             return RespInfo.error("用户名或密码错误");
         }
         if (!userDetails.isEnabled()) {
@@ -95,7 +99,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
             return RespInfo.error("密码不一致");
         }
         admin.setPassword(passwordEncoder.encode(info.getPass()));
-//        int i = adminMapper.updateById(admin);
+        int i = adminMapper.updateById(admin);
 //        SecurityContextHolder.getContext().setAuthentication(null);
         return RespInfo.success("密码修改成功");
     }
@@ -150,5 +154,20 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     @Override
     public List<Role> getAdminRolesById(Integer id) {
         return adminMapper.getAdminRolesById(id);
+    }
+
+    @Override
+    public RespInfo updateUserFace(MultipartFile file, Integer id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Integer id1 = ((Admin) authentication.getPrincipal()).getId();
+        if (id!=id1||id==null||file==null) {
+            return null;
+        }
+        String[] upload = FastDFSUtils.upload(file);
+        Admin admin = adminMapper.selectById(id);
+        admin.setUserFace(FastDFSUtils.getTrackerUrl()+upload[0]+"/"+upload[1]);
+        adminMapper.updateById(admin);
+        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(admin,authentication.getCredentials(),authentication.getAuthorities()));
+        return RespInfo.success("更新成功");
     }
 }
